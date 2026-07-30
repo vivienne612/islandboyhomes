@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg">
+<title>Island Boy Homes</title>
+<link rel="stylesheet" href="styles.css?v=10">
+<style>
+.p-top { padding-top: 108px; }
+.crumb { display:flex; align-items:center; gap:10px; font-size:12.5px; color:var(--muted); letter-spacing:0.02em; }
+.crumb a:hover { color: var(--espresso-2); }
+.crumb .sep { opacity:0.5; }
+
+/* header block */
+.p-head { display:flex; justify-content:space-between; align-items:flex-end; gap:24px; margin:20px 0 30px; flex-wrap:wrap; }
+.p-head .region { font-size:12px; letter-spacing:0.18em; text-transform:uppercase; color:var(--caramel-d); font-weight:600; }
+.p-head h1 { font-size:clamp(38px,5.5vw,68px); line-height:1; margin-top:10px; }
+.p-head h1 em { font-style:italic; }
+.p-head .loc { display:flex; align-items:center; gap:8px; color:var(--muted); margin-top:14px; font-size:15px; }
+.p-status { display:inline-flex; align-items:center; gap:8px; font-size:11px; font-weight:600; letter-spacing:0.08em; text-transform:uppercase; padding:8px 15px; border-radius:999px; background:var(--white); border:1px solid var(--line-soft); box-shadow:var(--shadow-soft); }
+.p-status .dot { width:8px; height:8px; border-radius:999px; }
+.p-status.available .dot { background:#4c9a5a; box-shadow:0 0 0 3px rgba(76,154,90,.18); }
+.p-status.leasehold .dot { background:var(--caramel); }
+.p-status.past .dot { background:var(--sage-deep); }
+
+/* gallery — swipeable carousel */
+.gallery { position:relative; border-radius:26px; overflow:hidden; background:var(--sand); box-shadow:var(--shadow-soft); }
+.gal-track { display:flex; overflow-x:auto; scroll-snap-type:x mandatory; scroll-behavior:smooth; aspect-ratio:16/9; scrollbar-width:none; -ms-overflow-style:none; }
+.gal-track::-webkit-scrollbar { display:none; }
+.gal-slide { flex:0 0 100%; scroll-snap-align:center; height:100%; }
+.gal-slide img { width:100%; height:100%; object-fit:cover; display:block; }
+.gal-arrow { position:absolute; top:50%; transform:translateY(-50%); width:46px; height:46px; border-radius:999px; background:rgba(255,253,249,0.9); border:1px solid var(--line-soft); display:grid; place-items:center; cursor:pointer; box-shadow:var(--shadow-soft); z-index:3; color:var(--espresso-2); transition:background .3s var(--ease), transform .3s var(--ease); }
+.gal-arrow:hover { background:#fff; transform:translateY(-50%) scale(1.06); }
+.gal-arrow:active { transform:translateY(-50%) scale(0.96); }
+.gal-arrow.prev { left:16px; } .gal-arrow.next { right:16px; }
+.gal-arrow svg { width:18px; height:18px; }
+.gal-counter { position:absolute; bottom:16px; right:16px; z-index:3; background:rgba(42,33,28,0.72); color:var(--cream-2); font-size:12px; font-weight:600; letter-spacing:0.03em; padding:6px 12px; border-radius:999px; -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); }
+.gal-dots { position:absolute; bottom:18px; left:50%; transform:translateX(-50%); z-index:3; display:flex; gap:7px; }
+.gal-dot { width:7px; height:7px; padding:0; border:none; border-radius:999px; background:rgba(255,253,249,0.55); cursor:pointer; transition:all .35s var(--ease); }
+.gal-dot.active { background:#fff; width:22px; }
+@media (max-width: 640px){ .gal-track{ aspect-ratio:4/3; } .gal-arrow{ width:40px; height:40px; } .gal-dots{ display:none; } }
+
+/* body layout */
+.p-body { display:grid; grid-template-columns: 1fr 360px; gap:clamp(32px,5vw,72px); margin-top:clamp(48px,6vw,86px); align-items:start; }
+@media (max-width: 940px){ .p-body{ grid-template-columns:1fr; } }
+
+.p-desc .eyebrow { margin-bottom:16px; }
+.p-desc h2 { font-size:clamp(26px,3.4vw,38px); line-height:1.1; }
+.p-desc p.lede { font-size:18px; color:var(--brown); line-height:1.7; margin-top:20px; max-width:60ch; }
+
+.block-title { font-family:var(--serif); font-size:24px; color:var(--espresso-2); margin:52px 0 22px; }
+.feat-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; }
+@media (max-width:680px){ .feat-grid{ grid-template-columns:repeat(2,1fr); } }
+.feat {
+  background:var(--white); border:1px solid var(--line-soft); border-radius:18px; padding:20px 18px;
+  box-shadow:var(--shadow-soft);
+}
+.feat .k { font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); }
+.feat .v { font-family:var(--serif); font-size:24px; color:var(--espresso-2); margin-top:8px; line-height:1; }
+
+.hood { display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px; }
+.hood-item { display:flex; justify-content:space-between; align-items:center; gap:12px; padding:16px 18px; background:var(--white); border:1px solid var(--line-soft); border-radius:16px; }
+.hood-item .p { font-size:14px; color:var(--espresso-2); font-weight:500; }
+.hood-item .t { font-size:12.5px; color:var(--caramel-d); font-weight:600; white-space:nowrap; }
+
+/* booking rail */
+.rail { position:sticky; top:100px; }
+.rail-card { background:var(--white); border:1px solid var(--line-soft); border-radius:28px; padding:8px; box-shadow:var(--shadow-lift); }
+.rail-inner { background:var(--cream-2); border-radius:22px; padding:28px; }
+.rail-card .specs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:20px; }
+.rail-card .tenure-row { display:flex; align-items:baseline; gap:8px; }
+.rail-card .tenure-row .big { font-family:var(--serif); font-size:30px; color:var(--espresso-2); }
+.rail-card .tenure-row .small { color:var(--muted); font-size:14px; }
+.rail-card .pricelist { margin:6px 0 22px; }
+.rail-card .pricelist .row { display:flex; justify-content:space-between; padding:11px 0; border-bottom:1px solid var(--line-soft); }
+.rail-card .pricelist .row .k { font-size:13px; color:var(--muted); }
+.rail-card .pricelist .row .v { font-family:var(--serif); font-size:17px; color:var(--espresso-2); }
+.rail-card .btn { width:100%; justify-content:center; }
+.rail-card .reassure { display:flex; align-items:center; gap:8px; justify-content:center; margin-top:16px; font-size:12px; color:var(--muted); }
+.rail-tenure-chips { display:flex; gap:8px; margin-bottom:18px; }
+.rail-tenure-chips .tc { flex:1; text-align:center; font-size:11px; letter-spacing:0.08em; text-transform:uppercase; padding:9px; border-radius:12px; background:rgba(59,46,38,0.05); color:var(--brown); font-weight:600; }
+
+/* other homes */
+.more { background:var(--sand); border-radius:40px; margin:80px 24px 0; padding:clamp(48px,6vw,80px) 0; }
+@media (max-width:700px){ .more{ margin:60px 12px 0; } }
+</style>
+</head>
+<body>
+<div id="header-slot"></div>
+
+<main class="p-top">
+  <div class="wrap">
+    <div class="crumb">
+      <a href="index.html">Home</a><span class="sep">/</span>
+      <a href="our-homes.html">Our Homes</a><span class="sep">/</span>
+      <span id="crumbName">—</span>
+    </div>
+    <div class="p-head">
+      <div>
+        <div class="region" id="pRegion"></div>
+        <h1 id="pName"></h1>
+        <div class="loc"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 21s7-5.5 7-11a7 7 0 1 0-14 0c0 5.5 7 11 7 11Z"/><circle cx="12" cy="10" r="2.5"/></svg><span id="pLoc"></span></div>
+      </div>
+      <div id="pStatus"></div>
+    </div>
+
+    <div class="gallery" id="gallery"></div>
+
+    <div class="p-body">
+      <div class="p-desc">
+        <span class="eyebrow">The Home</span>
+        <h2 id="pHeadline"></h2>
+        <p class="lede" id="pDesc"></p>
+
+        <h3 class="block-title">Features</h3>
+        <div class="feat-grid" id="pFeatures"></div>
+
+        <div id="hoodWrap">
+          <h3 class="block-title">The Neighbourhood</h3>
+          <div class="hood" id="pHood"></div>
+        </div>
+      </div>
+
+      <aside class="rail">
+        <div class="rail-card" id="railCard"></div>
+      </aside>
+    </div>
+  </div>
+
+  <!-- OTHER HOMES -->
+  <section class="more">
+    <div class="wrap">
+      <div class="sec-head" style="margin-bottom:40px">
+        <div><span class="eyebrow">Keep Exploring</span><h2 style="font-size:clamp(28px,3.6vw,44px);margin-top:14px">More <em style="font-style:italic;color:var(--caramel-d)">Island Boy homes</em></h2></div>
+        <a href="our-homes.html" class="textlink">View all homes <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></a>
+      </div>
+      <div class="home-grid" id="moreGrid"></div>
+    </div>
+  </section>
+</main>
+
+<div style="height:90px"></div>
+<div id="footer-slot"></div>
+
+<script src="data.js?v=10"></script>
+<script src="app.js?v=10"></script>
+<script>
+  mountChrome('homes');
+  const params = new URLSearchParams(location.search);
+  const slug = params.get('home') || 'islandboyguesthousekt';
+  const p = PROPERTIES.find(x => x.slug === slug) || PROPERTIES[0];
+  const isActive = ACTIVE_STATUSES.includes(p.status);
+
+  document.title = `${p.name} | Island Boy Homes`;
+  document.getElementById('crumbName').textContent = p.name;
+  document.getElementById('pRegion').textContent = p.region;
+  document.getElementById('pName').innerHTML = p.name.replace(/ — .*/,'') + (p.sub ? ` <em style="font-style:italic;color:var(--caramel-d)">${p.sub}</em>` : '');
+  document.getElementById('pLoc').textContent = p.location;
+
+  // status pill
+  const stCls = p.status === 'available' ? 'available' : p.status === 'leasehold' ? 'leasehold' : 'past';
+  document.getElementById('pStatus').innerHTML = `<span class="p-status ${stCls}"><span class="dot"></span>${p.statusLabel}</span>`;
+
+  // gallery — swipeable Airbnb-style carousel (works with any number of images)
+  const imgs = (p.images && p.images.length ? p.images : [p.thumb]).slice();
+  buildGallery(imgs, p.name);
+
+  document.getElementById('pHeadline').textContent = isActive ? 'A calm, considered stay in ' + p.region + '.' : 'From the Island Boy portfolio.';
+  document.getElementById('pDesc').textContent = p.description;
+
+  document.getElementById('pFeatures').innerHTML = p.features.map(f =>
+    `<div class="feat"><div class="k">${f[0]}</div><div class="v">${f[1]}</div></div>`).join('');
+
+  if (p.neighborhood && p.neighborhood.length) {
+    document.getElementById('pHood').innerHTML = p.neighborhood.map(n =>
+      `<div class="hood-item"><span class="p">${n[0]}</span><span class="t">${n[1]}</span></div>`).join('');
+  } else {
+    document.getElementById('hoodWrap').style.display = 'none';
+  }
+
+  // booking rail
+  const railSpecs = p.specs.split(' · ').map(s => `<span class="chip">${s}</span>`).join('');
+  let railBtn, railBody;
+  if (p.cta === 'book') {
+    railBody = `<div class="rail-tenure-chips">${p.tenure.map(t=>`<div class="tc">${t}</div>`).join('')}</div>
+      <div class="tenure-row"><span class="big">Rooms available</span></div>
+      <p style="color:var(--muted);font-size:13.5px;margin:8px 0 20px">Reserve your dates directly through our booking portal.</p>`;
+    railBtn = `<a href="https://book.islandboyhomes.com/" target="_blank" rel="noopener" class="btn"><span>Book Your Stay</span><span class="ic">${ARROW}</span></a>`;
+  } else if (p.cta === 'viewing') {
+    railBody = `<div class="pricelist">${(p.pricing||[]).map(pr=>`<div class="row"><span class="k">${pr[0]}</span><span class="v">${pr[1]}</span></div>`).join('')}</div>`;
+    railBtn = `<a href="https://wa.me/6285921090468?utm_source=islandboyhomes&utm_medium=website&utm_campaign=viewing&utm_content=${p.slug}" target="_blank" rel="noopener" class="btn caramel"><span>Chat to Schedule a Viewing</span><span class="ic">${ARROW}</span></a>`;
+  } else {
+    railBody = `<div class="tenure-row"><span class="big">${p.statusLabel}</span></div>
+      <p style="color:var(--muted);font-size:13.5px;margin:8px 0 20px">This home is part of our past portfolio. Chat with us about similar homes coming available.</p>`;
+    railBtn = `<a href="https://wa.me/6285921090468?utm_source=islandboyhomes&utm_medium=website&utm_campaign=general_inquiry&utm_content=${p.slug}" target="_blank" rel="noopener" class="btn ghost"><span>Enquire With Us</span><span class="ic">${ARROW}</span></a>`;
+  }
+  document.getElementById('railCard').innerHTML = `<div class="rail-inner">
+    <div class="specs">${railSpecs}</div>
+    ${railBody}
+    ${railBtn}
+    <div class="reassure"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 3l7 3v5c0 4.5-3 8-7 10-4-2-7-5.5-7-10V6l7-3Z"/></svg> Managed &amp; maintained by Island Boy Homes</div>
+  </div>`;
+
+  // more homes — other active homes
+  const more = PROPERTIES.filter(x => x.slug !== p.slug && ACTIVE_STATUSES.includes(x.status)).slice(0,3);
+  document.getElementById('moreGrid').innerHTML = more.map((x,i)=>propertyCard(x,i)).join('');
+
+  initReveal();
+  window.scrollTo(0,0);
+
+  // ---- Swipeable gallery ----
+  function buildGallery(images, alt) {
+    const g = document.getElementById('gallery');
+    const many = images.length > 1;
+    g.innerHTML = `
+      <div class="gal-track" id="galTrack">
+        ${images.map((src,i)=>`<div class="gal-slide"><img src="${src}" alt="${alt} — photo ${i+1}" ${i>1?'loading="lazy"':''}></div>`).join('')}
+      </div>
+      ${many ? `
+      <button class="gal-arrow prev" id="galPrev" aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></button>
+      <button class="gal-arrow next" id="galNext" aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></button>
+      <div class="gal-counter"><span id="galCur">1</span> / ${images.length}</div>
+      <div class="gal-dots" id="galDots">${images.map((_,i)=>`<button class="gal-dot${i===0?' active':''}" data-i="${i}" aria-label="Go to photo ${i+1}"></button>`).join('')}</div>
+      ` : ''}`;
+    if (!many) return;
+    const track = document.getElementById('galTrack');
+    const dots = [...document.querySelectorAll('#galDots .gal-dot')];
+    const cur = document.getElementById('galCur');
+    const go = i => track.scrollTo({ left: track.clientWidth * i, behavior: 'smooth' });
+    const idx = () => Math.round(track.scrollLeft / track.clientWidth);
+    document.getElementById('galPrev').onclick = () => go(Math.max(0, idx()-1));
+    document.getElementById('galNext').onclick = () => go(Math.min(images.length-1, idx()+1));
+    dots.forEach(d => d.onclick = () => go(+d.dataset.i));
+    let t; track.addEventListener('scroll', () => {
+      clearTimeout(t); t = setTimeout(() => {
+        const i = idx();
+        cur.textContent = i + 1;
+        dots.forEach((d,di)=>d.classList.toggle('active', di===i));
+      }, 60);
+    }, { passive: true });
+  }
+</script>
+</body>
+</html>

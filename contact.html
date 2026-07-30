@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg">
+<title>Contact | Island Boy Homes</title>
+<meta name="description" content="Chat with the Island Boy Homes team via WhatsApp about short or long-term stays across Bali.">
+<link rel="stylesheet" href="styles.css?v=10">
+<style>
+.c-wrap { padding-top: 118px; }
+.c-grid { display:grid; grid-template-columns: 1.1fr 0.9fr; gap:clamp(32px,5vw,72px); align-items:center; }
+@media (max-width:900px){ .c-grid{ grid-template-columns:1fr; } .c-visual{ order:-1; } }
+.c-copy h1 { font-size:clamp(44px,6.5vw,84px); line-height:0.98; margin-top:20px; }
+.c-copy h1 em { font-style:italic; color:var(--caramel-d); }
+.c-copy p { color:var(--brown); font-size:16.5px; margin-top:22px; max-width:46ch; }
+.c-actions { display:flex; flex-direction:column; gap:14px; margin-top:34px; max-width:470px; }
+.c-line {
+  display:flex; align-items:center; gap:18px; padding:16px 18px;
+  background:var(--white); border:1px solid var(--line-soft); border-radius:22px; box-shadow:var(--shadow-soft);
+  transition: transform .5s var(--ease), box-shadow .5s var(--ease);
+}
+.c-line:hover { transform:translateY(-3px); box-shadow:var(--shadow-lift); }
+.c-line .ic { width:50px; height:50px; border-radius:16px; display:grid; place-items:center; color:#fff; flex-shrink:0; }
+.c-line .ic.wa { background:#25D366; }
+.c-line .ic.ig { background:linear-gradient(45deg,#F58529,#DD2A7B,#8134AF); }
+.c-line .ic.bk { background:var(--espresso-2); }
+.c-line .tx { flex:1; min-width:0; display:flex; flex-direction:column; gap:5px; }
+.c-line .tx .k { font-size:11px; letter-spacing:0.14em; text-transform:uppercase; color:var(--muted); line-height:1; }
+.c-line .tx .v { font-family:var(--serif); font-size:19px; color:var(--espresso-2); line-height:1.15; white-space:nowrap; }
+.c-line .arr { width:38px; height:38px; border-radius:999px; background:rgba(59,46,38,0.05); display:grid; place-items:center; flex-shrink:0; transition:.4s var(--ease); }
+.c-line:hover .arr { background:var(--espresso-2); color:var(--cream-2); transform:rotate(-45deg); }
+.c-visual .frame { border-radius:30px; overflow:hidden; box-shadow:var(--shadow-lift); aspect-ratio:4/4.7; }
+.c-visual .frame img { width:100%; height:100%; object-fit:cover; }
+
+.community { text-align:center; margin-top:clamp(72px,10vw,130px); background:var(--espresso-2); color:var(--cream); border-radius:40px; padding:clamp(48px,7vw,90px) 24px; }
+.community .eyebrow { color:var(--sage); justify-content:center; }
+.community .eyebrow::before, .community .eyebrow.center::after { background:var(--sage); }
+.community h2 { color:var(--cream-2); font-size:clamp(30px,4.4vw,52px); margin-top:18px; }
+.community h2 em { font-style:italic; color:var(--sage); }
+.community p { color:rgba(247,241,231,0.7); max-width:48ch; margin:18px auto 32px; }
+</style>
+</head>
+<body>
+<div id="header-slot"></div>
+
+<main class="c-wrap">
+  <section class="section" style="padding-top:40px">
+    <div class="wrap c-grid">
+      <div class="c-copy reveal in">
+        <span class="eyebrow">Get In Touch</span>
+        <h1>Drop us<br><em>a message.</em></h1>
+        <p>If you're interested in renting our homes short term or long term — or even want us to manage your property — chat with us via WhatsApp and our team will be happy to answer any questions you might have.</p>
+        <div class="c-actions">
+          <a class="c-line" href="https://wa.me/6285921090468?utm_source=islandboyhomes&utm_medium=website&utm_campaign=general_inquiry&utm_content=contact_page" target="_blank" rel="noopener">
+            <span class="ic wa"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.82 9.82 0 0 0 12.04 2Zm0 18.13h-.01a8.2 8.2 0 0 1-4.18-1.15l-.3-.18-3.11.82.83-3.04-.2-.31a8.19 8.19 0 0 1-1.26-4.36c0-4.54 3.7-8.23 8.24-8.23 2.2 0 4.27.86 5.82 2.42a8.18 8.18 0 0 1 2.41 5.82c0 4.54-3.69 8.23-8.24 8.23Zm4.52-6.16c-.25-.12-1.47-.72-1.69-.81-.23-.08-.39-.12-.56.13-.16.25-.64.8-.78.97-.14.16-.29.18-.54.06-.25-.12-1.05-.39-1.99-1.23-.74-.66-1.23-1.47-1.38-1.72-.14-.25-.01-.38.11-.5.11-.11.25-.29.37-.43.13-.14.17-.25.25-.41.08-.16.04-.31-.02-.43-.06-.12-.56-1.34-.76-1.84-.2-.48-.4-.41-.56-.42-.14-.01-.31-.01-.47-.01a.9.9 0 0 0-.66.31c-.22.25-.86.85-.86 2.07 0 1.22.89 2.4 1.01 2.56.12.16 1.75 2.67 4.23 3.74.59.26 1.05.41 1.41.52.59.19 1.13.16 1.56.1.48-.07 1.47-.6 1.68-1.18.21-.58.21-1.07.14-1.18-.06-.11-.22-.17-.47-.29Z"/></svg></span>
+            <span class="tx"><span class="k">Chat via WhatsApp</span><span class="v">+62 859 2109 0468</span></span>
+            <span class="arr"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          </a>
+          <a class="c-line" href="https://www.instagram.com/islandboy.homes" target="_blank" rel="noopener">
+            <span class="ic ig"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>
+            <span class="tx"><span class="k">Connect via Instagram</span><span class="v">@islandboy.homes</span></span>
+            <span class="arr"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          </a>
+          <a class="c-line" href="https://book.islandboyhomes.com/" target="_blank" rel="noopener">
+            <span class="ic bk"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3" y="4" width="18" height="17" rx="3"/><path d="M3 9h18M8 2v4M16 2v4"/></svg></span>
+            <span class="tx"><span class="k">Book Directly</span><span class="v">Booking Portal</span></span>
+            <span class="arr"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span>
+          </a>
+        </div>
+      </div>
+      <div class="c-visual reveal in" data-delay="2">
+        <div class="frame"><img src="assets/img/bedd29_ca8c14c501b943f9a3dc83acc7968fae~mv2.jpg" alt="Island Boy Homes villa"></div>
+      </div>
+    </div>
+
+    <div class="wrap">
+      <div class="community reveal">
+        <span class="eyebrow center">Get Latest Updates</span>
+        <h2>Join the <em>Island Boy community.</em></h2>
+        <p>We routinely update our WhatsApp community whenever a new home becomes available. Be the first to know about new stays across Bali.</p>
+        <a href="https://wa.me/6285921090468?utm_source=islandboyhomes&utm_medium=website&utm_campaign=community&utm_content=contact_page" target="_blank" rel="noopener" class="btn light" style="margin:0 auto"><span>Join Community Group</span><span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M9 7h8v8"/></svg></span></a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div style="height:70px"></div>
+<div id="footer-slot"></div>
+
+<script src="data.js?v=10"></script>
+<script src="app.js?v=10"></script>
+<script>
+  mountChrome('contact');
+  initReveal();
+</script>
+</body>
+</html>

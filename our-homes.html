@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" href="favicon.svg">
+<title>Our Homes | Island Boy Homes</title>
+<meta name="description" content="Explore the full collection of Island Boy Homes — active guesthouses and villas available now, plus our portfolio of past properties.">
+<link rel="stylesheet" href="styles.css?v=10">
+<style>
+.page-hero { padding: 150px 0 clamp(44px, 6vw, 76px); background: var(--cream-2); position: relative; }
+@media (max-width: 700px){ .page-hero { padding: 108px 0 44px; } }
+.page-hero .wrap { text-align: center; }
+.page-hero h1 { font-size: clamp(42px, 7vw, 92px); line-height: 1; margin-top: 20px; }
+.page-hero h1 em { font-style: italic; color: var(--caramel-d); }
+.page-hero p { color: var(--brown); max-width: 52ch; margin: 22px auto 0; font-size: 16.5px; }
+.page-hero .eyebrow { justify-content: center; }
+
+/* filter bar */
+.filterbar { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin: 40px 0 0; }
+.filterbar button {
+  font-family: var(--sans); font-size: 13px; font-weight: 500;
+  padding: 10px 20px; border-radius: 999px; cursor: pointer;
+  background: transparent; color: var(--brown); border: 1px solid var(--line);
+  transition: all .4s var(--ease);
+}
+.filterbar button:hover { background: rgba(59,46,38,0.05); }
+.filterbar button.active { background: var(--espresso-2); color: var(--cream-2); border-color: var(--espresso-2); }
+
+.division { padding-top: clamp(48px, 6vw, 80px); }
+.division-head { display: flex; align-items: baseline; gap: 18px; margin-bottom: 40px; flex-wrap: wrap; }
+.division-head h2 { font-size: clamp(28px, 3.6vw, 44px); }
+.division-head h2 em { font-style: italic; color: var(--caramel-d); }
+.division-head .count { font-size: 13px; color: var(--muted); letter-spacing: 0.04em; }
+.division-head .rule { flex: 1; height: 1px; background: var(--line); min-width: 40px; }
+.division.past { background: var(--sand); border-radius: 40px; margin: 40px 24px 0; padding: clamp(48px,6vw,80px) 0; }
+.division.past .wrap { max-width: 1200px; }
+.division.past .note { color: var(--muted); max-width: 46ch; margin-top: -26px; margin-bottom: 40px; font-size: 15px; }
+@media (max-width:700px){ .division.past{ margin: 40px 12px 0; } }
+</style>
+</head>
+<body>
+<div id="header-slot"></div>
+
+<section class="page-hero">
+  <div class="wrap">
+    <span class="eyebrow">Our Collection</span>
+    <h1 class="reveal in">A home for<br><em>every occasion.</em></h1>
+    <p>Whether you're coming to Bali for a short weekend getaway or looking for a long-term digital-nomad hub, chances are we have just the home for you.</p>
+    <div class="filterbar" id="filterbar">
+      <button data-f="all" class="active">All</button>
+      <button data-f="Canggu">Canggu</button>
+      <button data-f="Pererenan">Pererenan</button>
+      <button data-f="Jimbaran">Jimbaran</button>
+      <button data-f="Umalas">Umalas</button>
+    </div>
+  </div>
+</section>
+
+<!-- ACTIVE HOMES -->
+<section class="section division" style="padding-bottom:0">
+  <div class="wrap">
+    <div class="division-head">
+      <span class="eyebrow" style="color:#4c9a5a"><span style="width:8px;height:8px;border-radius:999px;background:#4c9a5a;display:inline-block;box-shadow:0 0 0 3px rgba(76,154,90,.18)"></span>&nbsp;Available Now</span>
+    </div>
+    <div class="division-head" style="margin-top:-18px">
+      <h2>Active <em>Homes</em></h2>
+      <span class="rule"></span>
+      <span class="count" id="activeCount"></span>
+    </div>
+    <div class="home-grid" id="activeGrid"></div>
+  </div>
+</section>
+
+<!-- PAST PROPERTIES -->
+<section class="division past">
+  <div class="wrap">
+    <div class="division-head">
+      <h2>Past <em>Properties</em></h2>
+      <span class="rule"></span>
+      <span class="count" id="pastCount"></span>
+    </div>
+    <p class="note">Homes we've previously managed and marketed. Currently unavailable or non-active — a look at the portfolio we're proud to have cared for.</p>
+    <div class="home-grid" id="pastGrid"></div>
+  </div>
+</section>
+
+<div style="height:90px"></div>
+<div id="footer-slot"></div>
+
+<script src="data.js?v=10"></script>
+<script src="app.js?v=10"></script>
+<script>
+  mountChrome('homes');
+  const active = PROPERTIES.filter(p => ACTIVE_STATUSES.includes(p.status));
+  const past   = PROPERTIES.filter(p => !ACTIVE_STATUSES.includes(p.status));
+
+  function render(filter) {
+    const fa = filter === 'all' ? active : active.filter(p => p.region === filter);
+    const fp = filter === 'all' ? past   : past.filter(p => p.region === filter);
+    document.getElementById('activeGrid').innerHTML = fa.map((p,i)=>propertyCard(p,i)).join('') || emptyMsg();
+    document.getElementById('pastGrid').innerHTML   = fp.map((p,i)=>propertyCard(p,i)).join('') || emptyMsg();
+    document.getElementById('activeCount').textContent = fa.length + (fa.length===1?' home':' homes');
+    document.getElementById('pastCount').textContent   = fp.length + (fp.length===1?' home':' homes');
+    initReveal();
+    requestAnimationFrame(()=>document.querySelectorAll('.reveal').forEach(e=>e.classList.add('in')));
+  }
+  function emptyMsg(){ return '<p style="color:var(--muted);padding:20px 4px">No homes in this area yet.</p>'; }
+
+  render('all');
+  document.querySelectorAll('#filterbar button').forEach(b => b.addEventListener('click', () => {
+    document.querySelectorAll('#filterbar button').forEach(x=>x.classList.remove('active'));
+    b.classList.add('active');
+    render(b.dataset.f);
+  }));
+</script>
+</body>
+</html>
